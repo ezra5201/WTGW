@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Crisis - Gaza Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .back-nav {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-nav:hover {
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .overview {
+            background: white;
+            margin: -2rem auto 3rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .overview-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f8f8;
+            border-radius: 6px;
+            border-left: 4px solid #c41e3a;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #c41e3a;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .section {
+            margin: 3rem 0;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #2c1810;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #c41e3a;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #c41e3a;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #c41e3a;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .facility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .facility-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .facility-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .facility-header {
+            background: #f8f8f8;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .facility-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+        
+        .facility-location {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .facility-content {
+            padding: 1rem;
+        }
+        
+        .facility-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .status-critical {
+            background: #fee;
+            color: #c41e3a;
+        }
+        
+        .status-damaged {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-destroyed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .impact-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+        
+        .impact-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .impact-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .impact-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .testimonial {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-left: 4px solid #c41e3a;
+            margin: 2rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-source {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .data-sources {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-top: 2rem;
+        }
+        
+        .sources-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .sources-list {
+            list-style: none;
+        }
+        
+        .sources-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-footer {
+            text-align: center;
+            padding: 3rem 0;
+            background: #2c1810;
+            color: white;
+            margin-top: 4rem;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="https://ezra5201.github.io/WTGW/" class="back-nav">← Back to All Themes</a>
+        <div class="header-content">
+            <h1>Healthcare Crisis</h1>
+            <p class="subtitle">Medical facilities, hospitals, and healthcare infrastructure under siege</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="overview">
+            <p class="overview-text">
+                The systematic targeting and destruction of Gaza's healthcare infrastructure represents one of the most devastating aspects of the conflict. This documentation tracks the impact on medical facilities, healthcare workers, and civilian access to essential medical care across Gaza.
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">36</span>
+                    <div class="stat-label">Hospitals Attacked</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">180+</span>
+                    <div class="stat-label">Healthcare Workers Killed</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <div class="stat-label">Hospitals Out of Service</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">68%</span>
+                    <div class="stat-label">Reduction in Medical Capacity</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Timeline of Healthcare Infrastructure Attacks</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">October 12, 2024</div>
+                    <div class="timeline-content">
+                        Al-Shifa Hospital, Gaza's largest medical complex, comes under direct attack. Multiple buildings damaged, emergency services disrupted.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">October 18, 2024</div>
+                    <div class="timeline-content">
+                        Indonesian Hospital in northern Gaza forced to evacuate patients. Intensive care unit shut down due to power cuts and safety concerns.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">November 3, 2024</div>
+                    <div class="timeline-content">
+                        Al-Quds Hospital surrounded by forces. Medical staff and patients trapped inside for 48 hours without power or water.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">November 15, 2024</div>
+                    <div class="timeline-content">
+                        Kamal Adwan Hospital in northern Gaza reports direct hits to pediatric and maternity wards. 12 newborns evacuated under emergency conditions.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">December 1, 2024</div>
+                    <div class="timeline-content">
+                        WHO reports only 16 of Gaza's 36 hospitals remain partially functional. Critical shortage of medical supplies and fuel for generators.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Affected Medical Facilities</h2>
+            <div class="facility-grid">
+                <div class="facility-card">
+                    <div class="facility-header">
+                        <div class="facility-name">Al-Shifa Medical Complex</div>
+                        <div class="facility-location">Gaza City</div>
+                    </div>
+                    <div class="facility-content">
+                        <span class="facility-status status-critical">Critical Damage</span>
+                        <p>Gaza's largest hospital, serving over 700,000 people. Multiple direct attacks documented. Surgery departments non-operational.</p>
+                    </div>
+                </div>
+                
+                <div class="facility-card">
+                    <div class="facility-header">
+                        <div class="facility-name">Al-Quds Hospital</div>
+                        <div class="facility-location">Gaza City</div>
+                    </div>
+                    <div class="facility-content">
+                        <span class="facility-status status-damaged">Partially Functional</span>
+                        <p>Emergency services disrupted. Operating with limited power and medical supplies. Evacuation orders issued multiple times.</p>
+                    </div>
+                </div>
+                
+                <div class="facility-card">
+                    <div class="facility-header">
+                        <div class="facility-name">Indonesian Hospital</div>
+                        <div class="facility-location">Northern Gaza</div>
+                    </div>
+                    <div class="facility-content">
+                        <span class="facility-status status-destroyed">Out of Service</span>
+                        <p>Completely evacuated after direct targeting. ICU patients transferred under dangerous conditions. Building severely damaged.</p>
+                    </div>
+                </div>
+                
+                <div class="facility-card">
+                    <div class="facility-header">
+                        <div class="facility-name">Kamal Adwan Hospital</div>
+                        <div class="facility-location">Northern Gaza</div>
+                    </div>
+                    <div class="facility-content">
+                        <span class="facility-status status-critical">Critical Damage</span>
+                        <p>Pediatric and maternity wards hit. Neonatal unit evacuated. Serving as last medical facility in northern Gaza.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Impact on Civilian Healthcare</h2>
+            <ul class="impact-list">
+                <li>
+                    <svg class="impact-icon" viewBox="0 0 24 24" fill="#c41e3a">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Chronic disease patients unable to access regular treatment and medication
+                </li>
+                <li>
+                    <svg class="impact-icon" viewBox="0 0 24 24" fill="#c41e3a">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Emergency surgeries cancelled or performed without adequate facilities
+                </li>
+                <li>
+                    <svg class="impact-icon" viewBox="0 0 24 24" fill="#c41e3a">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Pregnant women forced to give birth without medical assistance
+                </li>
+                <li>
+                    <svg class="impact-icon" viewBox="0 0 24 24" fill="#c41e3a">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Children unable to receive vaccinations and routine medical check-ups
+                </li>
+                <li>
+                    <svg class="impact-icon" viewBox="0 0 24 24" fill="#c41e3a">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Mental health services completely overwhelmed and under-resourced
+                </li>
+            </ul>
+        </div>
+        
+        <div class="testimonial">
+            <div class="testimonial-text">
+                "We are working in conditions that no medical professional should ever face. We have performed surgeries by flashlight, delivered babies in bomb shelters, and watched patients die from treatable conditions because we lack basic supplies. The systematic destruction of our healthcare system is not just an attack on buildings—it's an attack on the right to life itself."
+            </div>
+            <div class="testimonial-source">
+                — Dr. Sarah Ahmed, Emergency Physician at Al-Shifa Hospital
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">International Response</h2>
+            <p>Multiple international organizations have documented and condemned the attacks on healthcare facilities:</p>
+            <br>
+            <p><strong>World Health Organization (WHO):</strong> Declared the healthcare system in Gaza has "collapsed" and called for immediate protection of medical facilities under international humanitarian law.</p>
+            <br>
+            <p><strong>Médecins Sans Frontières (Doctors Without Borders):</strong> Reported that their medical teams have been forced to evacuate multiple facilities and condemned the targeting of healthcare infrastructure as a violation of international law.</p>
+            <br>
+            <p><strong>International Committee of the Red Cross:</strong> Called for safe corridors to allow medical supplies and personnel to reach hospitals, emphasizing that healthcare facilities must be protected during conflict.</p>
+        </div>
+        
+        <div class="data-sources">
+            <div class="sources-title">Documentation Sources:</div>
+            <ul class="sources-list">
+                <li>World Health Organization (WHO) Emergency Reports</li>
+                <li>Palestinian Ministry of Health Official Statistics</li>
+                <li>Médecins Sans Frontières Field Reports</li>
+                <li>United Nations Office for the Coordination of Humanitarian Affairs</li>
+                <li>First-hand testimonies from medical staff</li>
+                <li>Satellite imagery analysis by independent researchers</li>
+                <li>Social media documentation from healthcare workers</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="navigation-footer">
+        <a href="#" class="nav-button">← Previous: Civilian Casualties</a>
+        <a href="#" class="nav-button">Next: Educational Impact →</a>
+    </div>
+</body>
+</html>
