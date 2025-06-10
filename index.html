@@ -13,44 +13,147 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a202c 100%);
-            color: #e2e8f0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1a202c;
             min-height: 100vh;
-        }
-
-        .header {
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 clamp(1rem, 4vw, 2rem);
+            width: 100%;
         }
 
-        .header-content {
+        /* Mode Toggle Bar */
+        .mode-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: clamp(0.5rem, 1.5vw, 0.75rem) 0;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-toggle-content {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
 
+        .mode-toggle {
+            display: flex;
+            background: rgba(241, 245, 249, 0.9);
+            border-radius: clamp(20px, 4vw, 24px);
+            padding: clamp(0.2rem, 0.5vw, 0.25rem);
+            border: 1px solid rgba(71, 85, 105, 0.2);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: none;
+            border-radius: clamp(16px, 3.5vw, 20px);
+            padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.5rem);
+            font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+            color: #64748b;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        .mode-btn:hover {
+            color: #1e293b;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .mode-btn.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #1d4ed8;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .mode-icon {
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            flex-shrink: 0;
+        }
+
+        .mode-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 0;
+        }
+
+        .mode-title {
+            font-weight: 600;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: clamp(1rem, 2.5vw, 1.5rem) 0;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-areas: "logo nav stats";
+            align-items: center;
+            gap: clamp(1rem, 3vw, 2rem);
+        }
+
         .logo {
-            font-size: 1.5rem;
+            grid-area: logo;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
             font-weight: 700;
-            color: #f7fafc;
+            color: #1a202c;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .main-nav {
+            grid-area: nav;
+            display: flex;
+            gap: clamp(1rem, 2.5vw, 2rem);
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #1e293b;
         }
 
         .stats {
+            grid-area: stats;
             display: flex;
-            gap: 2rem;
-            font-size: 0.9rem;
-            color: #a0aec0;
+            gap: clamp(1rem, 2vw, 2rem);
+            font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+            color: #64748b;
         }
 
         .stat-item {
@@ -59,68 +162,98 @@
 
         .stat-number {
             display: block;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             font-weight: 600;
-            color: #f7fafc;
+            color: #1a202c;
         }
 
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(248, 250, 252, 0.8);
+            padding: clamp(0.75rem, 1.5vw, 1rem) 0;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.1);
+        }
+
+        .breadcrumb-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.5rem);
+            color: #64748b;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+        }
+
+        .breadcrumb a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
         .hero {
-            padding: 4rem 0;
+            padding: clamp(2rem, 6vw, 4rem) 0;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #f7fafc, #e2e8f0);
+            margin-bottom: clamp(0.75rem, 2vw, 1rem);
+            background: linear-gradient(135deg, #1e293b, #475569);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.1;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: #a0aec0;
-            max-width: 600px;
-            margin: 0 auto 3rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: #64748b;
+            max-width: min(600px, 90vw);
+            margin: 0 auto clamp(2rem, 4vw, 3rem);
             line-height: 1.6;
         }
 
+        /* Themes Section */
         .themes-section {
-            padding: 2rem 0 4rem;
+            padding: clamp(1.5rem, 3vw, 2rem) 0 clamp(3rem, 6vw, 4rem);
         }
 
         .section-title {
             text-align: center;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 700;
-            margin-bottom: 3rem;
-            color: #f7fafc;
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+            color: #1a202c;
         }
 
         .themes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: clamp(3rem, 6vw, 4rem);
         }
 
         .theme-card {
-            background: rgba(26, 32, 44, 0.8);
-            border: 1px solid rgba(226, 232, 240, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.15);
+            border-radius: clamp(12px, 2.5vw, 16px);
+            padding: clamp(1.5rem, 3vw, 2rem);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: fit-content;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .theme-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(96, 165, 250, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .theme-card::before {
@@ -145,54 +278,121 @@
             background: linear-gradient(90deg, #10b981, #059669);
         }
 
+        .theme-card.journalism::before {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .theme-card.education::before {
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
+        }
+
+        .theme-card.civilian::before {
+            background: linear-gradient(90deg, #f97316, #ea580c);
+        }
+
+        .theme-card.international::before {
+            background: linear-gradient(90deg, #ec4899, #db2777);
+        }
+
+        .theme-card.resources::before {
+            background: linear-gradient(90deg, #84cc16, #65a30d);
+        }
+
+        .theme-card.technology::before {
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+        }
+
+        .theme-card.legal::before {
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+        }
+
         .theme-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+            gap: clamp(0.75rem, 2vw, 1rem);
         }
 
         .theme-icon {
-            width: 48px;
-            height: 48px;
-            margin-right: 1rem;
-            font-size: 24px;
+            width: clamp(40px, 8vw, 48px);
+            height: clamp(40px, 8vw, 48px);
+            font-size: clamp(20px, 4vw, 24px);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: clamp(8px, 2vw, 12px);
+            flex-shrink: 0;
         }
 
         .humanitarian .theme-icon {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
         }
 
         .infrastructure .theme-icon {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fcd34d;
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
         }
 
         .displacement .theme-icon {
-            background: rgba(16, 185, 129, 0.2);
-            color: #6ee7b7;
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .journalism .theme-icon {
+            background: rgba(139, 92, 246, 0.15);
+            color: #7c3aed;
+        }
+
+        .education .theme-icon {
+            background: rgba(6, 182, 212, 0.15);
+            color: #0891b2;
+        }
+
+        .civilian .theme-icon {
+            background: rgba(249, 115, 22, 0.15);
+            color: #ea580c;
+        }
+
+        .international .theme-icon {
+            background: rgba(236, 72, 153, 0.15);
+            color: #db2777;
+        }
+
+        .resources .theme-icon {
+            background: rgba(132, 204, 22, 0.15);
+            color: #65a30d;
+        }
+
+        .technology .theme-icon {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+        }
+
+        .legal .theme-icon {
+            background: rgba(99, 102, 241, 0.15);
+            color: #4f46e5;
         }
 
         .theme-title {
-            font-size: 1.4rem;
+            font-size: clamp(1.2rem, 2.8vw, 1.4rem);
             font-weight: 600;
-            color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.3;
         }
 
         .theme-description {
-            color: #a0aec0;
+            color: #64748b;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .theme-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 2vw, 1rem);
+            margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
         }
 
         .theme-stat {
@@ -201,91 +401,102 @@
 
         .theme-stat-number {
             display: block;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: 700;
-            color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.2;
         }
 
         .theme-stat-label {
-            font-size: 0.8rem;
-            color: #718096;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .explore-btn {
             width: 100%;
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            color: #93c5fd;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #1d4ed8;
+            padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1rem, 2.5vw, 1.5rem);
+            border-radius: clamp(6px, 1.5vw, 8px);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
         }
 
         .explore-btn:hover {
-            background: rgba(96, 165, 250, 0.2);
-            border-color: rgba(96, 165, 250, 0.5);
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
         }
 
+        /* Interactive Map */
         .interactive-map {
-            background: rgba(26, 32, 44, 0.8);
-            border: 1px solid rgba(226, 232, 240, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 4rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.15);
+            border-radius: clamp(12px, 2.5vw, 16px);
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: clamp(3rem, 6vw, 4rem);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .map-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            gap: clamp(1rem, 2.5vw, 2rem);
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
         }
 
         .map-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.3rem, 3vw, 1.5rem);
             font-weight: 600;
-            color: #f7fafc;
+            color: #1a202c;
         }
 
         .map-filters {
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
         }
 
         .filter-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 20px;
-            color: #a0aec0;
-            font-size: 0.9rem;
+            padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: clamp(16px, 3vw, 20px);
+            color: #64748b;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .filter-btn.active,
         .filter-btn:hover {
-            background: rgba(96, 165, 250, 0.2);
-            border-color: rgba(96, 165, 250, 0.4);
-            color: #f7fafc;
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: #1a202c;
         }
 
         .map-placeholder {
-            height: 400px;
-            background: linear-gradient(135deg, rgba(15, 20, 25, 0.8), rgba(26, 32, 44, 0.8));
-            border-radius: 12px;
+            height: clamp(300px, 50vw, 400px);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.8));
+            border-radius: clamp(8px, 2vw, 12px);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #718096;
-            font-size: 1.1rem;
-            border: 2px dashed rgba(96, 165, 250, 0.2);
+            color: #64748b;
+            font-size: clamp(1rem, 2.2vw, 1.1rem);
+            border: 2px dashed rgba(59, 130, 246, 0.2);
             position: relative;
             overflow: hidden;
+            text-align: center;
+            padding: 1rem;
         }
 
         .map-dots {
@@ -296,8 +507,8 @@
 
         .map-dot {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: clamp(6px, 1.5vw, 8px);
+            height: clamp(6px, 1.5vw, 8px);
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -320,37 +531,64 @@
             left: 25%;
         }
 
+        .dot-journalism {
+            background: #8b5cf6;
+            top: 35%;
+            left: 60%;
+        }
+
+        .dot-education {
+            background: #06b6d4;
+            top: 70%;
+            left: 35%;
+        }
+
+        .dot-civilian {
+            background: #f97316;
+            top: 50%;
+            left: 20%;
+        }
+
+        .dot-resources {
+            background: #84cc16;
+            top: 40%;
+            left: 75%;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 0.6; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.2); }
         }
 
+        /* Timeline Section */
         .timeline-section {
-            background: rgba(26, 32, 44, 0.8);
-            border: 1px solid rgba(226, 232, 240, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.15);
+            border-radius: clamp(12px, 2.5vw, 16px);
+            padding: clamp(1.5rem, 3vw, 2rem);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .timeline-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
         }
 
         .timeline-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.3rem, 3vw, 1.5rem);
             font-weight: 600;
-            color: #f7fafc;
-            margin-bottom: 0.5rem;
+            color: #1a202c;
+            margin-bottom: clamp(0.4rem, 1vw, 0.5rem);
         }
 
         .timeline-subtitle {
-            color: #a0aec0;
+            color: #64748b;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
         }
 
         .timeline {
             position: relative;
-            max-width: 800px;
+            max-width: min(800px, 100%);
             margin: 0 auto;
         }
 
@@ -358,113 +596,249 @@
             content: '';
             position: absolute;
             width: 2px;
-            background: rgba(96, 165, 250, 0.3);
+            background: rgba(59, 130, 246, 0.3);
             top: 0;
             bottom: 0;
-            left: 50%;
+            left: clamp(1rem, 5vw, 50%);
             margin-left: -1px;
         }
 
         .timeline-item {
-            padding: 1rem 2rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
             position: relative;
-            width: 50%;
-            margin-bottom: 2rem;
+            width: 100%;
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
         }
 
         .timeline-item::after {
             content: '';
             position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #60a5fa;
+            width: clamp(10px, 2.5vw, 12px);
+            height: clamp(10px, 2.5vw, 12px);
+            background: #3b82f6;
             border-radius: 50%;
-            top: 1.5rem;
+            top: clamp(1.2rem, 2.5vw, 1.5rem);
             z-index: 1;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-
-        .timeline-item:nth-child(odd)::after {
-            right: -6px;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-
-        .timeline-item:nth-child(even)::after {
-            left: -6px;
+            left: clamp(0.5rem, 4.5vw, calc(50% - 6px));
         }
 
         .timeline-content {
-            background: rgba(15, 20, 25, 0.8);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(226, 232, 240, 0.1);
+            background: rgba(248, 250, 252, 0.9);
+            padding: clamp(1rem, 2.5vw, 1.5rem);
+            border-radius: clamp(8px, 2vw, 12px);
+            border: 1px solid rgba(71, 85, 105, 0.1);
+            margin-left: clamp(2.5rem, 8vw, 0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
         .timeline-date {
-            color: #60a5fa;
+            color: #3b82f6;
             font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+            margin-bottom: clamp(0.4rem, 1vw, 0.5rem);
         }
 
         .timeline-event {
-            color: #f7fafc;
+            color: #1a202c;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            margin-bottom: clamp(0.4rem, 1vw, 0.5rem);
+            font-size: clamp(0.95rem, 2vw, 1rem);
         }
 
         .timeline-details {
-            color: #a0aec0;
-            font-size: 0.9rem;
+            color: #64748b;
+            font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+            line-height: 1.5;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .header-content {
+                grid-template-areas: 
+                    "logo stats"
+                    "nav nav";
+                grid-template-columns: 1fr auto;
+                gap: 1rem;
+            }
+            
+            .main-nav {
+                justify-content: center;
+                grid-column: 1 / -1;
+                flex-wrap: wrap;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
+            .header-content {
+                grid-template-areas: 
+                    "logo"
+                    "stats"
+                    "nav";
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
             }
             
-            .themes-grid {
-                grid-template-columns: 1fr;
+            .stats {
+                justify-content: center;
+                gap: 1.5rem;
+            }
+            
+            .main-nav {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             .timeline::after {
                 left: 1rem;
             }
             
-            .timeline-item {
-                width: 100%;
-                left: 0;
-                padding-left: 3rem;
-            }
-            
             .timeline-item::after {
                 left: 0.5rem;
+            }
+            
+            .timeline-content {
+                margin-left: 2.5rem;
+            }
+            
+            .map-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .map-filters {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .mode-btn .mode-title {
+                font-size: 0.75rem;
+            }
+            
+            .mode-toggle {
+                max-width: 100%;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            
+            .mode-toggle::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .filter-btn {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .timeline-content {
+                margin-left: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .themes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .breadcrumb-content {
+                font-size: 0.75rem;
+            }
+            
+            .map-placeholder {
+                min-height: 250px;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .map-dot {
+                animation: none;
+            }
+        }
+
+        @media (prefers-contrast: high) {
+            .theme-card, .interactive-map, .timeline-section {
+                border-color: #000;
+                border-width: 2px;
+            }
+            
+            .mode-btn.active {
+                background: #1d4ed8;
+                color: #fff;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Compact Mode Toggle Bar -->
+    <div class="mode-bar">
+        <div class="container">
+            <div class="mode-toggle-content">
+                <div class="mode-toggle">
+                    <button class="mode-btn" id="researchMode" onclick="switchMode('research')">
+                        <div class="mode-icon">🔍</div>
+                        <div class="mode-text">
+                            <div class="mode-title">Research Mode</div>
+                        </div>
+                    </button>
+                    <button class="mode-btn active" id="explorationMode" onclick="switchMode('exploration')">
+                        <div class="mode-icon">🌐</div>
+                        <div class="mode-text">
+                            <div class="mode-title">Exploration Mode</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">Witnessing the Gaza War</div>
+                <div class="logo">
+                    <a href="/">Witnessing the Gaza War</a>
+                </div>
+                <nav class="main-nav">
+                    <a href="/about" class="nav-link">About</a>
+                    <a href="/methodology" class="nav-link">Methodology</a>
+                    <a href="/sources" class="nav-link">Sources</a>
+                    <a href="/reports" class="nav-link">Reports</a>
+                    <a href="/contact" class="nav-link">Contact</a>
+                </nav>
                 <div class="stats">
                     <div class="stat-item">
-                        <span class="stat-number">2,847</span>
+                        <span class="stat-number">5,847</span>
                         <span>Documentation Entries</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">156</span>
+                        <span class="stat-number">267</span>
                         <span>Verified Sources</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">89</span>
+                        <span class="stat-number">156</span>
                         <span>Locations</span>
                     </div>
                 </div>
@@ -473,10 +847,23 @@
     </header>
 
     <main>
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb">
+            <div class="container">
+                <div class="breadcrumb-content">
+                    <a href="/">Home</a>
+                    <span>→</span>
+                    <a href="/database">Database</a>
+                    <span>→</span>
+                    <span>Exploration Mode</span>
+                </div>
+            </div>
+        </div>
+
         <section class="hero">
             <div class="container">
                 <h1>Explore the Story</h1>
-                <p>Discover three core themes emerging from comprehensive documentation of the Gaza conflict through interactive insights and verified accounts.</p>
+                <p>Discover ten core themes emerging from comprehensive documentation of the Gaza conflict through interactive insights and verified accounts.</p>
             </div>
         </section>
 
@@ -487,7 +874,7 @@
                     <div class="theme-card humanitarian" onclick="exploreTheme('humanitarian')">
                         <div class="theme-header">
                             <div class="theme-icon">🏥</div>
-                            <div class="theme-title">Humanitarian Crisis</div>
+                            <div class="theme-title">Healthcare Crisis</div>
                         </div>
                         <p class="theme-description">Medical facilities, hospitals, and healthcare infrastructure under siege. Documentation of impacts on civilian medical care and emergency services.</p>
                         <div class="theme-stats">
@@ -546,11 +933,172 @@
                                 <span class="theme-stat-label">Camps</span>
                             </div>
                             <div class="theme-stat">
-                                <span class="theme-stat-label">1.9M</span>
+                                <span class="theme-stat-number">1.9M</span>
                                 <span class="theme-stat-label">People</span>
                             </div>
                         </div>
                         <button class="explore-btn">Explore Displacement →</button>
+                    </div>
+
+                    <div class="theme-card journalism" onclick="exploreTheme('journalism')">
+                        <div class="theme-header">
+                            <div class="theme-icon">📰</div>
+                            <div class="theme-title">Press & Journalism</div>
+                        </div>
+                        <p class="theme-description">Documentation of attacks on journalists, media facilities, and press freedom. Tracking threats to information access and reporting.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">127</span>
+                                <span class="theme-stat-label">Journalists</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">18</span>
+                                <span class="theme-stat-label">Media Offices</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">89</span>
+                                <span class="theme-stat-label">Incidents</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Press Freedom →</button>
+                    </div>
+
+                    <div class="theme-card education" onclick="exploreTheme('education')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🎓</div>
+                            <div class="theme-title">Educational Impact</div>
+                        </div>
+                        <p class="theme-description">Schools, universities, and educational facilities affected. Impact on students, teachers, and the future of education in Gaza.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">372</span>
+                                <span class="theme-stat-label">Schools</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">12</span>
+                                <span class="theme-stat-label">Universities</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">625K</span>
+                                <span class="theme-stat-label">Students</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Education →</button>
+                    </div>
+
+                    <div class="theme-card civilian" onclick="exploreTheme('civilian')">
+                        <div class="theme-header">
+                            <div class="theme-icon">👥</div>
+                            <div class="theme-title">Civilian Testimonies</div>
+                        </div>
+                        <p class="theme-description">First-hand accounts from civilians, families, and community members. Personal stories of survival, loss, and resilience.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">1,456</span>
+                                <span class="theme-stat-label">Testimonies</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">89</span>
+                                <span class="theme-stat-label">Communities</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">234</span>
+                                <span class="theme-stat-label">Families</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Stories →</button>
+                    </div>
+
+                    <div class="theme-card international" onclick="exploreTheme('international')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🌍</div>
+                            <div class="theme-title">International Response</div>
+                        </div>
+                        <p class="theme-description">UN statements, international aid efforts, diplomatic initiatives, and global solidarity movements documented across multiple countries.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">298</span>
+                                <span class="theme-stat-label">Statements</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">67</span>
+                                <span class="theme-stat-label">Countries</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">145</span>
+                                <span class="theme-stat-label">Organizations</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Response →</button>
+                    </div>
+
+                    <div class="theme-card resources" onclick="exploreTheme('resources')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🚰</div>
+                            <div class="theme-title">Essential Resources</div>
+                        </div>
+                        <p class="theme-description">Water, food, fuel, and electricity shortages. Documentation of humanitarian aid distribution and basic service disruptions.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">423</span>
+                                <span class="theme-stat-label">Shortages</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">78</span>
+                                <span class="theme-stat-label">Aid Trucks</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">156</span>
+                                <span class="theme-stat-label">Facilities</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Resources →</button>
+                    </div>
+
+                    <div class="theme-card technology" onclick="exploreTheme('technology')">
+                        <div class="theme-header">
+                            <div class="theme-icon">📱</div>
+                            <div class="theme-title">Digital Documentation</div>
+                        </div>
+                        <p class="theme-description">Social media posts, digital evidence, satellite imagery, and technology-enabled documentation efforts from within Gaza.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">2,847</span>
+                                <span class="theme-stat-label">Posts</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">189</span>
+                                <span class="theme-stat-label">Videos</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">456</span>
+                                <span class="theme-stat-label">Photos</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Digital →</button>
+                    </div>
+
+                    <div class="theme-card legal" onclick="exploreTheme('legal')">
+                        <div class="theme-header">
+                            <div class="theme-icon">⚖️</div>
+                            <div class="theme-title">Legal Documentation</div>
+                        </div>
+                        <p class="theme-description">Human rights violations, legal proceedings, court filings, and documentation for accountability and justice mechanisms.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">167</span>
+                                <span class="theme-stat-label">Cases</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">89</span>
+                                <span class="theme-stat-label">Violations</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">34</span>
+                                <span class="theme-stat-label">Filings</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Legal →</button>
                     </div>
                 </div>
 
@@ -562,6 +1110,10 @@
                             <button class="filter-btn" onclick="filterMap('humanitarian')">Healthcare</button>
                             <button class="filter-btn" onclick="filterMap('infrastructure')">Infrastructure</button>
                             <button class="filter-btn" onclick="filterMap('displacement')">Displacement</button>
+                            <button class="filter-btn" onclick="filterMap('journalism')">Press</button>
+                            <button class="filter-btn" onclick="filterMap('education')">Education</button>
+                            <button class="filter-btn" onclick="filterMap('civilian')">Testimonies</button>
+                            <button class="filter-btn" onclick="filterMap('resources')">Resources</button>
                         </div>
                     </div>
                     <div class="map-placeholder">
@@ -569,6 +1121,10 @@
                             <div class="map-dot dot-humanitarian"></div>
                             <div class="map-dot dot-infrastructure"></div>
                             <div class="map-dot dot-displacement"></div>
+                            <div class="map-dot dot-journalism"></div>
+                            <div class="map-dot dot-education"></div>
+                            <div class="map-dot dot-civilian"></div>
+                            <div class="map-dot dot-resources"></div>
                         </div>
                         Interactive Map: Gaza Strip Documentation Clusters
                         <br><small>Click themes above to filter by category</small>
@@ -619,6 +1175,28 @@
         function exploreTheme(theme) {
             // Simulate theme exploration
             alert(`Exploring ${theme} theme...\n\nThis would open an interactive drill-down interface showing:\n• Geographic clusters\n• Timeline of events\n• Source verification\n• Individual stories\n• Related documentation`);
+        }
+
+        function switchMode(mode) {
+            if (mode === 'research') {
+                // Show transition message and redirect to research mode
+                showModeTransition('research');
+                // In real implementation: window.location.href = '/database/search';
+            } else {
+                // Update active state for exploration mode
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById('explorationMode').classList.add('active');
+            }
+        }
+
+        function showModeTransition(targetMode) {
+            const message = targetMode === 'research' 
+                ? 'Switching to Research Mode...\n\nYou would be redirected to the advanced search interface with:\n• Field-specific filters\n• Date range selectors\n• Source type filters\n• Export capabilities\n• Raw data access'
+                : 'Switching to Exploration Mode...\n\nGuided thematic discovery interface';
+            
+            alert(message);
         }
 
         function filterMap(filter) {
