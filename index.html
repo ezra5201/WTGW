@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witnessing the Gaza War - Interactive Exploration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a202c 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f7fafc;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f7fafc;
+        }
+
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f7fafc, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .themes-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #f7fafc;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .theme-card {
+            background: rgba(26, 32, 44, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+        }
+
+        .theme-card.humanitarian::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .theme-card.infrastructure::before {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .theme-card.displacement::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 1rem;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .humanitarian .theme-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .infrastructure .theme-icon {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .displacement .theme-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+
+        .theme-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f7fafc;
+        }
+
+        .theme-description {
+            color: #a0aec0;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-stat {
+            text-align: center;
+        }
+
+        .theme-stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f7fafc;
+        }
+
+        .theme-stat-label {
+            font-size: 0.8rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .explore-btn {
+            width: 100%;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #93c5fd;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .explore-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .interactive-map {
+            background: rgba(26, 32, 44, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .map-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f7fafc;
+        }
+
+        .map-filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 20px;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.4);
+            color: #f7fafc;
+        }
+
+        .map-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.8), rgba(26, 32, 44, 0.8));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-size: 1.1rem;
+            border: 2px dashed rgba(96, 165, 250, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .dot-humanitarian {
+            background: #ef4444;
+            top: 20%;
+            left: 30%;
+        }
+
+        .dot-infrastructure {
+            background: #f59e0b;
+            top: 60%;
+            left: 45%;
+        }
+
+        .dot-displacement {
+            background: #10b981;
+            top: 80%;
+            left: 25%;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .timeline-section {
+            background: rgba(26, 32, 44, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f7fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-subtitle {
+            color: #a0aec0;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: rgba(96, 165, 250, 0.3);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 1rem 2rem;
+            position: relative;
+            width: 50%;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #60a5fa;
+            border-radius: 50%;
+            top: 1.5rem;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -6px;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -6px;
+        }
+
+        .timeline-content {
+            background: rgba(15, 20, 25, 0.8);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(226, 232, 240, 0.1);
+        }
+
+        .timeline-date {
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-event {
+            color: #f7fafc;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-details {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .themes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::after {
+                left: 1rem;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0;
+                padding-left: 3rem;
+            }
+            
+            .timeline-item::after {
+                left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Witnessing the Gaza War</div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2,847</span>
+                        <span>Documentation Entries</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">156</span>
+                        <span>Verified Sources</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">89</span>
+                        <span>Locations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Explore the Story</h1>
+                <p>Discover three core themes emerging from comprehensive documentation of the Gaza conflict through interactive insights and verified accounts.</p>
+            </div>
+        </section>
+
+        <section class="themes-section">
+            <div class="container">
+                <h2 class="section-title">Core Themes</h2>
+                <div class="themes-grid">
+                    <div class="theme-card humanitarian" onclick="exploreTheme('humanitarian')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🏥</div>
+                            <div class="theme-title">Humanitarian Crisis</div>
+                        </div>
+                        <p class="theme-description">Medical facilities, hospitals, and healthcare infrastructure under siege. Documentation of impacts on civilian medical care and emergency services.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">847</span>
+                                <span class="theme-stat-label">Reports</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">23</span>
+                                <span class="theme-stat-label">Hospitals</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">67</span>
+                                <span class="theme-stat-label">Medical Staff</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Healthcare Impact →</button>
+                    </div>
+
+                    <div class="theme-card infrastructure" onclick="exploreTheme('infrastructure')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🏗️</div>
+                            <div class="theme-title">Infrastructure Destruction</div>
+                        </div>
+                        <p class="theme-description">Educational institutions, residential buildings, and critical infrastructure. Tracking the systematic impact on civilian life support systems.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">1,203</span>
+                                <span class="theme-stat-label">Incidents</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">156</span>
+                                <span class="theme-stat-label">Schools</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">89</span>
+                                <span class="theme-stat-label">Mosques</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Infrastructure →</button>
+                    </div>
+
+                    <div class="theme-card displacement" onclick="exploreTheme('displacement')">
+                        <div class="theme-header">
+                            <div class="theme-icon">🏕️</div>
+                            <div class="theme-title">Mass Displacement</div>
+                        </div>
+                        <p class="theme-description">Population movements, refugee camps, and evacuation corridors. Stories of families forced to flee and seek shelter across Gaza.</p>
+                        <div class="theme-stats">
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">797</span>
+                                <span class="theme-stat-label">Accounts</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-number">34</span>
+                                <span class="theme-stat-label">Camps</span>
+                            </div>
+                            <div class="theme-stat">
+                                <span class="theme-stat-label">1.9M</span>
+                                <span class="theme-stat-label">People</span>
+                            </div>
+                        </div>
+                        <button class="explore-btn">Explore Displacement →</button>
+                    </div>
+                </div>
+
+                <div class="interactive-map">
+                    <div class="map-header">
+                        <h3 class="map-title">Geographic Distribution</h3>
+                        <div class="map-filters">
+                            <button class="filter-btn active" onclick="filterMap('all')">All Events</button>
+                            <button class="filter-btn" onclick="filterMap('humanitarian')">Healthcare</button>
+                            <button class="filter-btn" onclick="filterMap('infrastructure')">Infrastructure</button>
+                            <button class="filter-btn" onclick="filterMap('displacement')">Displacement</button>
+                        </div>
+                    </div>
+                    <div class="map-placeholder">
+                        <div class="map-dots">
+                            <div class="map-dot dot-humanitarian"></div>
+                            <div class="map-dot dot-infrastructure"></div>
+                            <div class="map-dot dot-displacement"></div>
+                        </div>
+                        Interactive Map: Gaza Strip Documentation Clusters
+                        <br><small>Click themes above to filter by category</small>
+                    </div>
+                </div>
+
+                <div class="timeline-section">
+                    <div class="timeline-header">
+                        <h3 class="timeline-title">Key Documentation Periods</h3>
+                        <p class="timeline-subtitle">Major phases of documented events and their impacts</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">October 2023</div>
+                                <div class="timeline-event">Initial Documentation Phase</div>
+                                <div class="timeline-details">First wave of reports focusing on northern Gaza, establishing documentation protocols</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">December 2023</div>
+                                <div class="timeline-event">Healthcare System Crisis</div>
+                                <div class="timeline-details">Intensive documentation of medical facility impacts, particularly in Gaza City</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">March 2024</div>
+                                <div class="timeline-event">Mass Displacement Documentation</div>
+                                <div class="timeline-details">Focus shifts to refugee camp conditions and evacuation corridor testimonies</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-date">June 2024</div>
+                                <div class="timeline-event">Infrastructure Assessment</div>
+                                <div class="timeline-details">Comprehensive documentation of educational and religious site impacts</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function exploreTheme(theme) {
+            // Simulate theme exploration
+            alert(`Exploring ${theme} theme...\n\nThis would open an interactive drill-down interface showing:\n• Geographic clusters\n• Timeline of events\n• Source verification\n• Individual stories\n• Related documentation`);
+        }
+
+        function filterMap(filter) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Simulate map filtering
+            const dots = document.querySelectorAll('.map-dot');
+            dots.forEach(dot => {
+                if (filter === 'all') {
+                    dot.style.display = 'block';
+                } else {
+                    dot.style.display = dot.classList.contains(`dot-${filter}`) ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Add smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add intersection observer for animation triggers
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // Observe theme cards for entrance animations
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
